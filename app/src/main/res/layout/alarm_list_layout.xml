@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alarmListItemRL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:backgroundTint="@android:color/black"
+
+    >
+
+    <TextView
+        android:id="@+id/dateTimeTV"
+        android:text="10:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/alarmNameTV"
+        style="@style/word_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_below="@+id/dateTimeTV"
+        />
+
+
+    <Switch
+        android:id="@+id/statusSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        />
+</RelativeLayout>
