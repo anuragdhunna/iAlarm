@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
  */
 
 @Entity(tableName = "alarm")
-public class Alarm {
+public class AlarmEntity {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -22,8 +22,12 @@ public class Alarm {
     private String name;
 
     @NonNull
-    @ColumnInfo(name = "date_time")
-    private String dateTime;
+    @ColumnInfo(name = "hour")
+    private int hour;
+
+    @NonNull
+    @ColumnInfo(name = "minute")
+    private int minute;
 
     @NonNull
     @ColumnInfo(name = "snooze")
@@ -37,15 +41,16 @@ public class Alarm {
     @ColumnInfo(name = "repeat")
     private String repeat;  // Y/N
 
-    public Alarm(@NonNull String name, String dateTime, String snooze, String status, String repeat ) {
+    public AlarmEntity(@NonNull String name, int hour, int minute, String snooze, String status, String repeat ) {
         this.name = name;
-        this.dateTime = dateTime;
+        this.hour = hour;
+        this.minute = minute;
         this.snooze = snooze;
         this.status = status;
         this.repeat = repeat;
     }
 
-//    public Alarm(@NonNull String name) {
+//    public AlarmEntity(@NonNull String name) {
 //        this.name = name;
 //    }
 
@@ -68,12 +73,21 @@ public class Alarm {
     }
 
     @NonNull
-    public String getDateTime() {
-        return dateTime;
+    public int getHour() {
+        return hour;
     }
 
-    public void setDateTime(@NonNull String dateTime) {
-        this.dateTime = dateTime;
+    public void setHour(@NonNull int hour) {
+        this.hour = hour;
+    }
+
+    @NonNull
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(@NonNull int minute) {
+        this.minute = minute;
     }
 
     @NonNull

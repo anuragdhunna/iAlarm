@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.anuragdhunna.www.ialarm.R;
 import com.anuragdhunna.www.ialarm.activities.MainActivity;
-import com.anuragdhunna.www.ialarm.entities.Alarm;
+import com.anuragdhunna.www.ialarm.entities.AlarmEntity;
 import com.anuragdhunna.www.ialarm.fragments.AlarmDetailFragment;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 public class AlarmRecyclerAdapter extends RecyclerView.Adapter<AlarmRecyclerAdapter.AlarmViewHolder> {
 
     private final LayoutInflater mInflater;
-    private List<Alarm> mAlarms; // Cached copy of alarms
+    private List<AlarmEntity> mAlarmEntities; // Cached copy of alarms
 
     public AlarmRecyclerAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
@@ -40,36 +40,36 @@ public class AlarmRecyclerAdapter extends RecyclerView.Adapter<AlarmRecyclerAdap
     @Override
     public void onBindViewHolder(final AlarmViewHolder holder, int position) {
 
-        if (mAlarms != null) {
-            Alarm alarm = mAlarms.get(position);
+        if (mAlarmEntities != null) {
+            AlarmEntity alarmEntity = mAlarmEntities.get(position);
+            final int alarmId = alarmEntity.getAlarmId();
             holder.alarmListItemRL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: Show Details of Alarm
-
                     MainActivity mainActivity = (MainActivity)holder.itemView.getContext();
                     FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
-                    Fragment fragment = AlarmDetailFragment.newInstance(null, null);
+                    Fragment fragment = AlarmDetailFragment.newInstance(alarmId, null);
                     fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
-//                            .addToBackStack(AlarmDetailFragment.class.getName())
+                            .addToBackStack(AlarmDetailFragment.class.getName())
                             .commit();
                 }
             });
-            holder.alarmItemView.setText(alarm.getName());
-            holder.dateTimeTV.setText(alarm.getDateTime());
-            if (alarm.getStatus().equals("Y")) {
+            String time = alarmEntity.getHour() + ":" + alarmEntity.getMinute();
+            holder.alarmItemView.setText(alarmEntity.getName());
+            holder.dateTimeTV.setText(time);
+            if (alarmEntity.getStatus().equals("Y")) {
                 holder.statusSwitch.setChecked(true);
             } else {
                 holder.statusSwitch.setChecked(false);
             }
         } else {
             // Covers the case of data not being ready yet.
-            holder.alarmItemView.setText("No Alarm");
+            holder.alarmItemView.setText("No AlarmEntity");
         }
     }
 
-    public void setAlarms(List<Alarm> alarms) {
-        mAlarms = alarms;
+    public void setAlarms(List<AlarmEntity> alarmEntities) {
+        mAlarmEntities = alarmEntities;
         notifyDataSetChanged();
     }
 
@@ -77,8 +77,8 @@ public class AlarmRecyclerAdapter extends RecyclerView.Adapter<AlarmRecyclerAdap
     // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
-        if (mAlarms != null)
-            return mAlarms.size();
+        if (mAlarmEntities != null)
+            return mAlarmEntities.size();
         else return 0;
     }
 

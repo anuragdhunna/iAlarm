@@ -5,7 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.anuragdhunna.www.ialarm.entities.Alarm;
+import com.anuragdhunna.www.ialarm.entities.AlarmEntity;
 
 import java.util.List;
 
@@ -17,11 +17,15 @@ import java.util.List;
 public interface AlarmDao {
 
     @Insert
-    void insert(Alarm alarm);
+    void insert(AlarmEntity alarmEntity);
 
     @Query("DELETE FROM alarm")
     void deleteAll();
 
     @Query("SELECT * from alarm")
-    LiveData<List<Alarm>> getAllAlarm();
+    LiveData<List<AlarmEntity>> getAllAlarm();
+
+    @Query("SELECT * FROM alarm WHERE alarm_id = :alarmId")
+    LiveData<AlarmEntity> getAlarmDetails(int alarmId);
+
 }

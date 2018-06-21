@@ -1,28 +1,16 @@
 package com.anuragdhunna.www.ialarm.activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.amitshekhar.DebugDB;
 import com.anuragdhunna.www.ialarm.R;
-import com.anuragdhunna.www.ialarm.adapters.AlarmRecyclerAdapter;
-import com.anuragdhunna.www.ialarm.entities.Alarm;
 import com.anuragdhunna.www.ialarm.fragments.AlarmListFragment;
 import com.anuragdhunna.www.ialarm.viewModels.AlarmViewModel;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 //
 //        mAlarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
 //
-//        mAlarmViewModel.getAllAlarms().observe(this, new Observer<List<Alarm>>() {
+//        mAlarmViewModel.getAllAlarms().observe(this, new Observer<List<AlarmEntity>>() {
 //            @Override
-//            public void onChanged(@Nullable final List<Alarm> alarms) {
+//            public void onChanged(@Nullable final List<AlarmEntity> alarms) {
 //                // Update the cached copy of the alarms in the adapter.
 //                adapter.setAlarms(alarms);
 //            }
@@ -73,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 //        super.onActivityResult(requestCode, resultCode, data);
 //
 //        if (requestCode == NEW_ALARM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-//            Alarm alarm = new Alarm(data.getStringExtra(NewAlarmActivity.EXTRA_REPLY),  "2108-05-27 20:20:00:000", "Y", "Y", "Y");
+//            AlarmEntity alarm = new AlarmEntity(data.getStringExtra(NewAlarmActivity.EXTRA_REPLY),  "2108-05-27 20:20:00:000", "Y", "Y", "Y");
 //            mAlarmViewModel.insert(alarm);
 //        } else {
 //            Toast.makeText(

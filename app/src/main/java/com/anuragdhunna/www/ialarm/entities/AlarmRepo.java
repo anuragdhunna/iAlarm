@@ -15,7 +15,9 @@ import java.util.List;
 public class AlarmRepo {
 
     private AlarmDao mAlarmDao;
-    private LiveData<List<Alarm>> mAllAlarms;
+    private LiveData<List<AlarmEntity>> mAllAlarms;
+    private LiveData<AlarmEntity> mAlarm;
+    private int mAlarmId;
 
     public AlarmRepo(Application application) {
         AlarmRDB db = AlarmRDB.getDatabase(application);
@@ -23,15 +25,28 @@ public class AlarmRepo {
         mAllAlarms = mAlarmDao.getAllAlarm();
     }
 
-    public LiveData<List<Alarm>> getAllAlarms() {
+    public AlarmRepo(Application application, int alarmId) {
+        AlarmRDB db = AlarmRDB.getDatabase(application);
+        mAlarmDao = db.alarmDao();
+        mAllAlarms = mAlarmDao.getAllAlarm();
+        mAlarmId = alarmId;
+        mAlarm = mAlarmDao.getAlarmDetails(alarmId);
+    }
+
+    public LiveData<List<AlarmEntity>> getAllAlarms() {
         return mAllAlarms;
     }
 
-    public void insert (Alarm alarm) {
-        new insertAsyncTask(mAlarmDao).execute(alarm);
+    public void insert (AlarmEntity alarmEntity) {
+        new insertAsyncTask(mAlarmDao).execute(alarmEntity);
     }
 
-    private static class insertAsyncTask extends AsyncTask<Alarm, Void, Void> {
+    public LiveData<AlarmEntity> getAlarmDetails() {
+        mAlarm = mAlarmDao.getAlarmDetails(mAlarmId);
+        return  mAlarm;
+    }
+
+    private static class insertAsyncTask extends AsyncTask<AlarmEntity, Void, Void> {
 
         private AlarmDao mAsyncTaskDao;
 
@@ -40,7 +55,7 @@ public class AlarmRepo {
         }
 
         @Override
-        protected Void doInBackground(final Alarm... params) {
+        protected Void doInBackground(final AlarmEntity... params) {
             mAsyncTaskDao.insert(params[0]);
             return null;
         }

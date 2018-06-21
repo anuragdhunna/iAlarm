@@ -14,7 +14,7 @@ import com.anuragdhunna.www.ialarm.dao.AlarmDao;
  * Created by anuragdhunna on 16/5/18.
  */
 
-@Database(entities = {Alarm.class}, version = 1)
+@Database(entities = {AlarmEntity.class}, version = 1)
 public abstract class AlarmRDB extends RoomDatabase {
 
     public abstract AlarmDao alarmDao();
@@ -58,10 +58,10 @@ public abstract class AlarmRDB extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             mDao.deleteAll();       // YYYY-MM-DD HH:MM:SS.SSS
-            Alarm alarm = new Alarm("Alarm 1", "2108-05-27 20:20:00:000", "Y", "Y", "Y");
-            mDao.insert(alarm);
-            alarm = new Alarm("Alarm 2", "2108-05-28 03:20:00:000", "N", "Y", "N");
-            mDao.insert(alarm);
+            AlarmEntity alarmEntity = new AlarmEntity("AlarmEntity 1", 10, 23,"Y", "Y", "Y");
+            mDao.insert(alarmEntity);
+            alarmEntity = new AlarmEntity("AlarmEntity 2", 9, 41,"N", "Y", "N");
+            mDao.insert(alarmEntity);
             return null;
         }
     }

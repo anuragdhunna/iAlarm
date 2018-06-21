@@ -2,9 +2,7 @@ package com.anuragdhunna.www.ialarm.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,10 +15,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.anuragdhunna.www.ialarm.R;
-import com.anuragdhunna.www.ialarm.activities.MainActivity;
 import com.anuragdhunna.www.ialarm.activities.NewAlarmActivity;
 import com.anuragdhunna.www.ialarm.adapters.AlarmRecyclerAdapter;
-import com.anuragdhunna.www.ialarm.entities.Alarm;
+import com.anuragdhunna.www.ialarm.entities.AlarmEntity;
 import com.anuragdhunna.www.ialarm.viewModels.AlarmViewModel;
 
 import java.util.List;
@@ -93,11 +90,11 @@ public class AlarmListFragment extends Fragment {
 
         mAlarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
 
-        mAlarmViewModel.getAllAlarms().observe(this, new Observer<List<Alarm>>() {
+        mAlarmViewModel.getAllAlarms().observe(this, new Observer<List<AlarmEntity>>() {
             @Override
-            public void onChanged(@Nullable final List<Alarm> alarms) {
-                // Update the cached copy of the alarms in the adapter.
-                adapter.setAlarms(alarms);
+            public void onChanged(@Nullable final List<AlarmEntity> alarmEntities) {
+                // Update the cached copy of the alarmEntities in the adapter.
+                adapter.setAlarms(alarmEntities);
             }
         });
 
@@ -111,8 +108,13 @@ public class AlarmListFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_ALARM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Alarm alarm = new Alarm(data.getStringExtra(NewAlarmActivity.EXTRA_REPLY),  "2108-05-27 20:20:00:000", "Y", "Y", "Y");
-            mAlarmViewModel.insert(alarm);
+            AlarmEntity alarmEntity = new AlarmEntity(data.getStringExtra(NewAlarmActivity.ALARM_NAME),
+                    data.getIntExtra(NewAlarmActivity.ALARM_HOUR, 0),
+                    data.getIntExtra(NewAlarmActivity.ALARM_MINUTE, 0),
+                    data.getStringExtra(NewAlarmActivity.ALARM_SNOOZE),
+                    data.getStringExtra(NewAlarmActivity.ALARM_STATUS),
+                    data.getStringExtra(NewAlarmActivity.ALARM_REPEAT));
+            mAlarmViewModel.insert(alarmEntity);
         } else {
             Toast.makeText(
                     getContext(),
